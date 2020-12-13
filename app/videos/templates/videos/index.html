@@ -1,0 +1,69 @@
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>videos</title>
+	<link href="{% static 'videos/styles.css' %}" type="text/css" rel="stylesheet" media="screen,projection">
+</head>
+<body>
+
+	<div class="container">
+	  	<header>DESCARGADOR</header>
+	  	<aside>
+	  		<h2>DETALLES</h2>
+	  		<ul>
+	  			<li><p>TÍTULO: {{title}}</p></li>
+	  			<li><p>DURACIÓN: {{duration}}</p></li>
+	  			<li><p>ME GUSTA: {{likes}}</p></li>
+	  			<li><p>NO ME GUSTA: {{dislikes}}</p></li>
+	  			<li><p>VISTAS: {{views}}</p></li>
+	  			<li><p>EXTENCIÓN: {{ext}}</p></li>
+	  			
+	  			<li><p>FORMATO: {{format}}</p></li>
+	  			<li><p>RESOLUTION: {{resolution}}</p></li>
+	  			<li>
+	  				<p>
+	  				<a href="{{ url }}" style="text-decoration: none;" download="{{ title }}.{{ ext }}" target="_blank" >Download</a></td>
+
+	  				</p> 
+	  			</li>
+
+	  		</ul>
+	  	</aside>
+	  	<main>	
+		  	<h1>Descarga videos de youtube</h1>
+			<form action="/videos/" method="post">
+				{% csrf_token %}
+				<input width="100" type="text" name="url" placeholder="Ingresa la url del video">
+				<input type="submit" value="Enviar">
+			</form>
+		</main>
+		<article>
+			<h2>DETALLES</h2>
+			
+           <table class="table mt-5">
+               	<thead class="thead-light">
+	               	<tr>
+	                   	<th scope="col">Resolution</th>
+	                   	<th scope="col">File Size</th>
+	                   	<th scope="col">Extension</th>
+	                   	<th scope="col">Download</th>
+	               	</tr>
+               	</thead>
+               	<tbody>
+                   {% for stream in video_streams %}
+                       	<tr>
+                            <td>{{ stream.file_size }}</td>
+                            <td>{{ stream.extension }}</td>
+                            <td><a href="{{ stream.video_url }}" style="text-decoration: none;" download="{{ title }}.{{ stream.extension }}" target="_blank" >Download <i class=" fa fa-download"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+           	</table>
+			     
+		</article>
+	  	<footer>TODOS LOS DERECHOS RESERVADOS</footer>
+	</div>
+</body>
+</html>
